@@ -70,7 +70,7 @@ export const config: Options.Testrunner = {
         "appium:platformName": "Android",
         "appium:deviceName": "Pixel_6_Pro_API_33",
         "appium:udid": "emulator-5554",
-        "appium:app": "/Users/testvagrant_1/Downloads/Apk/Android-MyDemoAppRN.1.3.0.build-244.apk",
+        "appium:app": `${process.cwd()}/app/apk/android_sauce_lab_app.apk`,
         "appium:automationName": "UiAutomator2"
     }],
 

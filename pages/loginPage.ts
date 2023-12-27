@@ -1,16 +1,8 @@
 import { $ } from '@wdio/globals'
 
 
-
-
-/**
- * sub page containing specific selectors and methods for a specific page
- */
-
-class LoginPage {
-    /**
-     * define selectors using getter methods
-     */
+export class LoginPage {
+   
     get burgerIcon() {
         return $("~open menu");
     }
@@ -31,12 +23,11 @@ class LoginPage {
         return $("~Login button")
     }
 
-    /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
-     */
-  
-    async login(username : string, password : string) {
+    get firstProductEle() {
+        return $('(//android.widget.TextView[@content-desc="store item text"])[1]');
+    }
+
+    async login(username : string, password : number) {
         await this.burgerIcon.waitForDisplayed();
         (await this.burgerIcon).click();
 
@@ -54,4 +45,3 @@ class LoginPage {
     }  
 }
 
-export default new LoginPage();

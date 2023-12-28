@@ -1,47 +1,50 @@
-import { $ } from '@wdio/globals'
+import { LeftSideMenuScreenPage } from "./leftSideMenuScreenPage";
+import { ProductPage } from "./productsPage";
 
 
 export class LoginPage {
-   
-    get burgerIcon() {
-        return $("~open menu");
+
+    productPage : ProductPage;
+    leftSideMenuScreenpage: LeftSideMenuScreenPage;
+
+    constructor() {
+        this.productPage = new ProductPage();
+        this.leftSideMenuScreenpage = new LeftSideMenuScreenPage();
     }
 
-    get loginButtonFromSideMenu() {
-        return $("~menu item log in");
+    private selectors = {
+        userNameInputField: '~Username input field',
+        passwordInputField: '~Password input field',
+        loginButton: '~Login button',
     }
 
-    get usernameInputField() {
-        return $("~Username input field");
+    public async getUserNameInputFieldEle() {
+        return await $(this.selectors.userNameInputField);
     }
 
-    get passwordInputField() {
-        return $('~Password input field');
+    public async getPasswordInputFieldEle() {
+        return await $(this.selectors.passwordInputField);
     }
 
-    get loginButton() {
-        return $("~Login button")
+    public async getLoginButtonEle() {
+        return await $(this.selectors.loginButton);
     }
 
-    get firstProductEle() {
-        return $('(//android.widget.TextView[@content-desc="store item text"])[1]');
+    public async login(username : string, password : string) {
+
+        await (await this.productPage.getHamburgerIconEle()).click();
+        const menuItemLoginEle = await this.leftSideMenuScreenpage.getLoginButtonFromSideMenu();
+        await menuItemLoginEle.waitForDisplayed();
+        await menuItemLoginEle.click();
+        const userNameInputFieldEle = await $(this.selectors.userNameInputField);
+        await userNameInputFieldEle.waitForDisplayed();
+        await userNameInputFieldEle.setValue(username);
+        const passwordInputFieldEle = await $(this.selectors.passwordInputField);
+        await passwordInputFieldEle.waitForDisplayed();
+        await passwordInputFieldEle.setValue(password);
+        const loginButtonEle = await $(this.selectors.loginButton);
+        await loginButtonEle.click();
+
     }
 
-    async login(username : string, password : number) {
-        await this.burgerIcon.waitForDisplayed();
-        (await this.burgerIcon).click();
-
-        await this.loginButtonFromSideMenu.waitForDisplayed();
-        await this.loginButtonFromSideMenu.click();
-
-        await this.usernameInputField.waitForDisplayed();
-        await this.usernameInputField.setValue(username);
-
-        await this.passwordInputField.waitForDisplayed();
-        await this.passwordInputField.click();
-        await this.passwordInputField.setValue(password);
-        await this.loginButton.click();
-    
-    }  
 }
-

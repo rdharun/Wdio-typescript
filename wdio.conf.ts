@@ -157,6 +157,7 @@ export const config: Options.Testrunner = {
         outputDir: 'allure-results',
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: true,
+        disableMochaHooks: true
     }]],
 
     // Options to be passed to Mocha.

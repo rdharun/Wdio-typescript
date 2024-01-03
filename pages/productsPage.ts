@@ -3,34 +3,48 @@ import { $ } from "@wdio/globals";
 
 export class ProductPage {
 
-    private seletorts = {
+    private selectors = {
 
         hamburgerIcon: "~open menu",
         productTextOnHomeScreen: "//android.widget.TextView[@text='Products']",
         sauceLabsBackPackProduct: "(//android.widget.TextView[@content-desc='store item text'])[1]",
-        //"//android.widget.TextView[@text='Sauce Labs Backpack']",
         firstItem: "(//android.view.ViewGroup[@content-desc='store item'])[1]/android.view.ViewGroup[1]/android.widget.ImageView",
-
+        boltTshirtProduct: "//android.widget.TextView[@text='Sauce Labs Bolt T-Shirt']",
+        boltTshirtProductPrice: "//android.widget.TextView[@text='$15.99']",
+        footer: "//android.widget.TextView[@text='© 2024 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy.']/parent::android.view.ViewGroup"
     }
 
     public async getHamburgerIconEle() {
-        return await $(this.seletorts.hamburgerIcon);
+        return await $(this.selectors.hamburgerIcon);
+    }
+
+    public async getBoltTshirtProductEle() {
+        return await $(this.selectors.boltTshirtProduct);
     }
 
     public async getProductTextOnHomeScreenEle() {
-        return await $(this.seletorts.productTextOnHomeScreen);
+        return await $(this.selectors.productTextOnHomeScreen);
     }
 
     public async getSauceLabsBackPackProductEle() {
-        return await $(this.seletorts.sauceLabsBackPackProduct);
+        return await $(this.selectors.sauceLabsBackPackProduct);
     }
 
-    async clickOnProduct() {
+    async getFooterEle() {
+        return await $(this.selectors.footer);
+    }
+
+
+
+    async clickOnFirstProduct() {
         const productElement = await this.getSauceLabsBackPackProductEle();
         await productElement.waitForDisplayed();
         await productElement.click();
     }
 
-   
-
+    async getBoltTshirtPrice() {
+        const boltTshirtPrice = await $(this.selectors.boltTshirtProductPrice);
+        await boltTshirtPrice.waitForDisplayed();
+        return await boltTshirtPrice.getText();
+    }
 }

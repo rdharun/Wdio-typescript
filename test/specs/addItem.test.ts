@@ -43,7 +43,7 @@ describe('Add item to cart', () => {
         }
 
         await loginPage.login(username, password);
-        await productPage.clickOnProduct();
+        await productPage.clickOnFirstProduct();
         await addToCartPage.addToCart();
         await addToCartPage.clickCartIcon();
         await myCartPage.clickProceedToCheckoutButton();
@@ -53,5 +53,6 @@ describe('Add item to cart', () => {
         await checkOutPage.clickReviewOrderButton();
         await checkOutPage.clickPlaceOrderButton();
         await checkOutPage.clickContinueShoppingButton();
+        
     });
 });

@@ -8,7 +8,8 @@ export class AddToCartPage {
 
         cartBadge: "~cart badge",
         addToCartButton: "~Add To Cart button",
-    
+        productPriceLabel: "~product price",
+        
     }
 
     async getAddToCartButtonEle() {
@@ -26,8 +27,9 @@ export class AddToCartPage {
         await cartIconEle.click();
     }
 
-
-
-
-
+    async getProductPriceLabel() {
+        const productPriceLabelEle = await $(this.selectors.productPriceLabel);
+        await productPriceLabelEle.waitForDisplayed();
+        return await productPriceLabelEle.getText();
+    }
 }

@@ -34,8 +34,6 @@ export class ProductPage {
         return await $(this.selectors.footer);
     }
 
-
-
     async clickOnFirstProduct() {
         const productElement = await this.getSauceLabsBackPackProductEle();
         await productElement.waitForDisplayed();

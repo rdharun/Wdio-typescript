@@ -9,7 +9,9 @@ export class AddToCartPage {
         cartBadge: "~cart badge",
         addToCartButton: "~Add To Cart button",
         productPriceLabel: "~product price",
-        
+        increaseQuantity: '//android.view.ViewGroup[@content-desc="counter plus button"]/android.widget.ImageView',
+
+
     }
 
     async getAddToCartButtonEle() {
@@ -31,5 +33,11 @@ export class AddToCartPage {
         const productPriceLabelEle = await $(this.selectors.productPriceLabel);
         await productPriceLabelEle.waitForDisplayed();
         return await productPriceLabelEle.getText();
+    }
+
+    async increaseQuantity(qty: number) {
+        for(let i=0; i<qty; i++) {
+            (await $(this.selectors.increaseQuantity)).click();
+        }
     }
 }

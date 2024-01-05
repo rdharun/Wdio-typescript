@@ -3,10 +3,12 @@
 import { ProductPage } from "../../../pages/productsPage";
 import { LeftSideMenuScreenPage } from "../../../pages/leftSideMenuScreenPage";
 import { WebViewPage } from "../../../pages/webViewPage";
+import { SwitchContextUtils } from "../../../utilities/switchContextUtils";
 
 let productPage : ProductPage;
 let leftSideMenuScreenPage: LeftSideMenuScreenPage;
 let webViewPage: WebViewPage;
+let switchContextUtils: SwitchContextUtils;
 
 describe('Switching between native to web views', () => {
 
@@ -14,7 +16,13 @@ describe('Switching between native to web views', () => {
         productPage = new ProductPage();
         leftSideMenuScreenPage = new LeftSideMenuScreenPage();
         webViewPage = new WebViewPage();
+        switchContextUtils = new SwitchContextUtils();
     })
+    
+    afterEach(async () => {
+        await driver.terminateApp("com.saucelabs.mydemoapp.rn");
+        await driver.activateApp("com.saucelabs.mydemoapp.rn");
+    });
 
     it('switching between native to web', async () => {
         const url: string = 'https://www.ultralesson.ai';
@@ -38,4 +46,21 @@ describe('Switching between native to web views', () => {
         // perform any actions in the webview page    
         await driver.back();
     });
+
+
+    it('Switching between native and web using utils',async () => {
+        const url: string = 'https://www.ultralesson.ai';
+        (await productPage.getHamburgerIconEle()).click();
+        await leftSideMenuScreenPage.clickMenuItemWebview();
+        await webViewPage.enterUrl(url);
+        await webViewPage.clickGoToSiteButton();
+        await switchContextUtils.switchToWebContext();
+        console.log('The webview url: ' + await browser.getUrl());
+        
+        await switchContextUtils.switchToNativeContext();
+
+        await driver.back();
+        
+        (await productPage.getHamburgerIconEle()).click();
+    })
 })

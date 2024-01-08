@@ -21,6 +21,9 @@ geckodriver/
 # Ignore environment-specific configuration files
 .env
 
+# Log files
+*.log
+
 # Ignore test reports and coverage reports
 allure-report/
 allure-reports/

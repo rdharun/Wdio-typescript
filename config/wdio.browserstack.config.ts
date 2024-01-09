@@ -19,7 +19,7 @@ exports.config = {
         {
           app: 'bs://6307eff2f50ecf32ddb48f18e8788cb558f38dfb',
           // buildIdentifier: "${DATE_TIME}",
-          browserstackLocal: true
+          browserstackLocal: false
         },
       ]
     ],
@@ -35,10 +35,23 @@ exports.config = {
       'bstack:options': {
         projectName: "BrowserStack Sauce Labs App",
         buildName: "bstack-sauceLabs",
+        sessionName: 'BStack parallel webdriverio-appium',
         debug: true,
         networkLogs: true
       }
     },
+    reporters: [
+        "spec",
+        [
+            "allure",
+            {
+                outputDir: "allure-results",
+                disableWebdriverStepsReporting: true,
+                disableWebdriverScreenshotsReporting: false,
+                disableMochaHooks: true
+            },
+        ],
+    ],
     mochaOpts: {
         ui: "bdd",
         timeout: 60000,

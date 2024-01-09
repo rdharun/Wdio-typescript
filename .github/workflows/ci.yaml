@@ -1,4 +1,4 @@
-name: Webdriverio Appium Project
+name: Wdio Project
 
 on:
   pull_request:

@@ -1,4 +1,5 @@
 import type { Options } from '@wdio/types'
+const fs = require('fs');
 export const config: Options.Testrunner = {
     //
     // ====================
@@ -157,7 +158,7 @@ export const config: Options.Testrunner = {
     reporters: [['allure', {
         outputDir: 'allure-results',
         disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
         disableMochaHooks: true
     }]],
 
@@ -262,21 +263,15 @@ export const config: Options.Testrunner = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    afterTest: async function(_test, _context, { error, result, duration, passed, retries }) {
+    afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+        console.log('Executing afterTest hook');
+        // Ensure errorShots directory exists
+        if (!fs.existsSync("./errorShots")) {
+            fs.mkdirSync("./errorShots");
+        }
         if (!passed) {
-            await browser.takeScreenshot();
-        }
-        if(error !==undefined){
-            // Handle 'error' property
-        }
-        if(result !== undefined){
-            // Handle 'error' property
-        }
-        if(duration !== undefined) {
-            // Handle 'error' property
-        }
-        if(retries !== undefined) {
-            // Handle 'error' property
+            console.log('Taking screenshot...');
+            await driver.saveScreenshot(`./errorShots/${test.title.replaceAll(" ", "_")}.png`);
         }
     },
 

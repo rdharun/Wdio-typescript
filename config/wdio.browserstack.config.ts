@@ -1,9 +1,18 @@
 
+import * as fs from 'fs';
+
 
 exports.config = {
     user: process.env.BROWSERSTACK_USERNAME || 'dharunr_TgAxvB',
     key: process.env.BROWSERSTACK_ACCESS_KEY || 'hGpAuxyqtHMDpdwse38H',
     hostname: 'hub.browserstack.com',
+    specs: [`${process.cwd()}/test/specs/**/*.test.ts`],
+    maxInstances: 1,
+    coloredLogs: true,
+    logLevel: "info",
+    waitforTimeout: 30000,
+    connectionRetryTimeout: 120000,
+    connectionRetryCount: 1,
     services: [
       [
         'browserstack',
@@ -30,8 +39,16 @@ exports.config = {
         networkLogs: true
       }
     },
-    maxInstances: 1,
-    specs: [
-      '/Users/testvagrant_1/Documents/Mobile/WDIO-Typescript/test/specs/gestures/swipeGestures.test.ts'
-  ],
+    mochaOpts: {
+        ui: "bdd",
+        timeout: 60000,
+    },
+    afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+        if (!fs.existsSync("./errorShots")) {
+            fs.mkdirSync("./errorShots");
+        }
+        if (!passed) {
+            await driver.saveScreenshot(`./errorShots/${test.title.replaceAll(" ", "_")}.png`);
+        }
+    },
 }
